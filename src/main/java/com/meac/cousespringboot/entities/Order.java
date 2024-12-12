@@ -1,6 +1,7 @@
 package com.meac.cousespringboot.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.meac.cousespringboot.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -23,15 +24,27 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id")
     private User client;
 
+    private Integer status;
+
     public Order() {
 
     }
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, Instant moment, User client, OrderStatus status) {
         this.id = id;
         this.moment = moment;
         this.client = client;
+        setOrderStatus(status);
     }
 
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(status);
+    }
+    public void setOrderStatus(OrderStatus status) {
+        if (status != null) {
+            this.status = status.getStatusCode();
+        }
+
+    }
     public Long getId() {
         return id;
     }
