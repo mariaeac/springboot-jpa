@@ -1,5 +1,6 @@
 package com.meac.cousespringboot.entities.pk;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meac.cousespringboot.entities.Order;
 import com.meac.cousespringboot.entities.Product;
 import jakarta.persistence.Embeddable;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Embeddable
 public class OrderItemPK implements Serializable {
     private static final long serialVersionUID = 1L;
+
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -30,6 +32,7 @@ public class OrderItemPK implements Serializable {
         this.order = order;
     }
 
+    @JsonIgnore
     public Product getProduct() {
         return product;
     }

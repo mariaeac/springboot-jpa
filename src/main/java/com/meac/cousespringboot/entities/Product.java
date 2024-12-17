@@ -28,6 +28,10 @@ public class Product implements Serializable {
 
     private Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
+
     public Product() {
 
     }
@@ -82,6 +86,14 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem item : items) {
+            set.add(item.getOrder());
+        }
+        return set;
     }
 
     @Override
