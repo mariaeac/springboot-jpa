@@ -2,6 +2,7 @@ package com.meac.cousespringboot.services;
 
 import com.meac.cousespringboot.entities.User;
 import com.meac.cousespringboot.repositories.UserRepository;
+import com.meac.cousespringboot.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class UserServices {
 
     public User findById(Long id) {
         Optional<User> user = repository.findById(id);
-        return user.get();
+        return user.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
