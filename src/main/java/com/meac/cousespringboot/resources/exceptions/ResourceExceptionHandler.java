@@ -1,7 +1,9 @@
 package com.meac.cousespringboot.resources.exceptions;
 
+import com.meac.cousespringboot.services.exceptions.DatabaseException;
 import com.meac.cousespringboot.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +18,14 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
         String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(), error,ex.getMessage(), req.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException ex, HttpServletRequest req) {
+        String error = "Database exception";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(), status.value(), error,ex.getMessage(), req.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
